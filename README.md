@@ -16,6 +16,8 @@ Build a linux binary:
 
 ```
 $ make -f docker.Makefile binary
+
+也就是：
 root@master1:/home/kylin/k8s/docker-cli/src/github.com/docker/cli# make -f docker.Makefile binary
 # build dockerfile from stdin so that we don't send the build-context; source is bind-mounted in the development environment
 cat ./dockerfiles/Dockerfile.binary-native | docker build --build-arg=GO_VERSION -t docker-cli-native -
