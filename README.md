@@ -87,6 +87,18 @@ lrwxrwxrwx  1 root root       18 Aug  4 11:52 docker -> docker-linux-amd64
 
 
 整个过程由docker.Makefile->./dockerfiles/Dockerfile.binary-native->./scripts/build/binary->./scripts/build/.variables
+
+由docker.Makefile文件中的：
+.PHONY: build_binary_native_image
+build_binary_native_image:
+	# build dockerfile from stdin so that we don't send the build-context; source is bind-mounted in the development environment
+	cat ./dockerfiles/Dockerfile.binary-native | docker build --build-arg=GO_VERSION -t $(BINARY_NATIVE_IMAGE_NAME) -
+ 
+ 以及：
+ binary: build_binary_native_image ## build the CLI
+	$(DOCKER_RUN) $(BINARY_NATIVE_IMAGE_NAME)
+ 部分
+ 
 生成了docker-cli-native:latest镜像，再运行该镜像来编译docker（cmd/docker/docker.go）二进制文件
 ```
 
