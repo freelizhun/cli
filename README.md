@@ -17,7 +17,7 @@ Build a linux binary:
 ```
 $ make -f docker.Makefile binary
 
-也就是：
+前提确保linux服务器上已经安装好了docker,也就是：
 root@master1:/home/kylin/k8s/docker-cli/src/github.com/docker/cli# make -f docker.Makefile binary
 # build dockerfile from stdin so that we don't send the build-context; source is bind-mounted in the development environment
 cat ./dockerfiles/Dockerfile.binary-native | docker build --build-arg=GO_VERSION -t docker-cli-native -
@@ -102,6 +102,38 @@ build_binary_native_image:
  部分
  
 生成了docker-cli-native:latest镜像，再运行该镜像来编译docker（cmd/docker/docker.go）二进制文件
+
+测试：
+root@master1:/home/kylin/k8s/docker-cli/src/github.com/docker/cli/build# ./docker version
+Client:
+ Version:           20.03.0-dev
+ API version:       1.40
+ Go version:        go1.13.14
+ Git commit:        
+ Built:             Tue Aug  4 03:51:26 2020
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      false
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          19.03.2
+  API version:      1.40 (minimum version 1.12)
+  Go version:       go1.12.8
+  Git commit:       6a30dfc
+  Built:            Thu Aug 29 05:26:54 2019
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.2.10
+  GitCommit:        b34a5c8af56e510852c35414db4c1f4fa6172339
+ runc:
+  Version:          1.0.0-rc8+dev
+  GitCommit:        3e425f80a8c931f88e6d94a8c831b9d5aa481657
+ docker-init:
+  Version:          0.18.0
+  GitCommit:        fec3683
+成功生成了我们需要的20.03.0-dev版本
 ```
 
 
